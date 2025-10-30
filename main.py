@@ -16,7 +16,7 @@ from sqlalchemy import func
 # Create tables
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Modern Blog API", version="2.8")
+app = FastAPI(title="Modern Blog", version="1.0")
 
 # CORS
 app.add_middleware(
@@ -182,7 +182,7 @@ def create_post(post: PostCreate, db: Session = Depends(get_db)):
     db.refresh(db_post)
     return db_post
 
-@app.get("/api/posts/my-posts", response_model=List[PostResponse])
+@app.get("/api/posts/my-posts", response_model=List[PostResponse)
 def get_my_posts(db: Session = Depends(get_db)):
     # In real app filter by authenticated user
     user = db.query(User).first()
@@ -271,9 +271,11 @@ def get_user_stats(user_id: int, db: Session = Depends(get_db)):
 
 if __name__ == "__main__":
     import uvicorn
-    print("🚀 Modern Blog Platform v2.8 - ENHANCED & FULLY FUNCTIONAL")
-    print("📍 URL: http://127.0.0.1:8000")
-    print("📊 Features: Scroll to Top, Global Search, Notifications, Pagination")
-    print("🎨 UI: Enhanced with modern improvements")
-    print("⚡ Performance: Optimized with debounced search")
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    import os
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(
+        app, 
+        host="0.0.0.0", 
+        port=port,
+        access_log=False
+    )
