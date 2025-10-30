@@ -1,12 +1,10 @@
-# Modern Blog
+# Ì∫Ä Modern Blog - Full Stack Blogging Platform
 
-Una aplicaci√≥n de blog moderna construida con FastAPI.
+> **Developed with AI Assistance** Ì¥ñ + **Human Expertise** Ì±®‚ÄçÌ≤ª
 
-## Caracter√≠sticas
-- Autenticaci√≥n de usuarios
-- Creaci√≥n y gesti√≥n de posts
-- API RESTful
-- Frontend integrado
+A modern blogging web application built with FastAPI and cutting-edge technologies, developed through human-AI collaboration.
 
-## Despliegue
-Desplegado en Render.com
+## Ìºê **Live Application**
+**Ì¥ó Live URL:** [https://modern-blog-tkzl.onrender.com/](https://modern-blog-tkzl.onrender.com/)
+
+**Ì≥ö API Documentation:** [https://modern-blog-tkzl.onrender.com/docs](https://modern-blog-tkzl.onrender.com/docs)
