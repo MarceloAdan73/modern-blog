@@ -41,3 +41,8 @@ update_main.py
 update_title.py
 update_references.py
 *.log
+
+# Scripts temporales de deployment
+fix_main.py
+render_fix.py
+update_*.py
