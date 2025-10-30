@@ -182,7 +182,7 @@ def create_post(post: PostCreate, db: Session = Depends(get_db)):
     db.refresh(db_post)
     return db_post
 
-@app.get("/api/posts/my-posts", response_model=List[PostResponse)
+@app.get("/api/posts/my-posts", response_model=List[PostResponse])
 def get_my_posts(db: Session = Depends(get_db)):
     # In real app filter by authenticated user
     user = db.query(User).first()
