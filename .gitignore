@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+
+# Base de datos
+*.db
+*.sqlite3
+blog.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Entornos virtuales
+.env
+.env.local
+.env.production
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Archivos temporales específicos de tu proyecto
+update_main.py
+update_title.py
+update_references.py
+*.log

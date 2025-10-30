@@ -1,0 +1,2334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Blog Platform</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com/3.3.0"></script>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .gradient-bg {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      }
+      
+      .font-oswald {
+        font-family: "Oswald", sans-serif;
+      }
+      .font-poppins {
+        font-family: "Poppins", sans-serif;
+      }
+      .hover-lift {
+        transition: all 0.3s ease;
+      }
+      .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+      .fade-enter-active,
+      .fade-leave-active {
+        transition: opacity 0.3s ease;
+      }
+      .fade-enter-from,
+      .fade-leave-to {
+        opacity: 0;
+      }
+      .post-content {
+        line-height: 1.8;
+      }
+      .post-content h1,
+      .post-content h2,
+      .post-content h3 {
+        margin-top: 1.5em;
+        margin-bottom: 0.5em;
+        font-weight: bold;
+      }
+      .post-content h1 {
+        font-size: 2em;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        padding-bottom: 0.3em;
+      }
+      .post-content h2 {
+        font-size: 1.5em;
+        color: #93c5fd;
+      }
+      .post-content h3 {
+        font-size: 1.25em;
+        color: #bfdbfe;
+      }
+      .post-content p {
+        margin-bottom: 1em;
+      }
+      .post-content ul,
+      .post-content ol {
+        margin-left: 1.5em;
+        margin-bottom: 1em;
+      }
+      .post-content li {
+        margin-bottom: 0.5em;
+      }
+      .post-content code {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+      }
+      .post-content pre {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1em;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 1em 0;
+      }
+      .post-content blockquote {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1em;
+        margin: 1em 0;
+        font-style: italic;
+        color: #d1d5db;
+      }
+      .mobile-menu {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      .mobile-menu.open {
+        transform: translateX(0);
+      }
+      .hamburger-line {
+        transition: all 0.3s ease;
+      }
+      .hamburger.active .hamburger-line:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+      }
+      .hamburger.active .hamburger-line:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.active .hamburger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
+      .profile-picture {
+        object-fit: cover;
+      }
+      .rotate-180 {
+        transform: rotate(180deg);
+      }
+      .badge-owner {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      }
+      .badge-other {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      }
+      .stats-card {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+      }
+      .slide-down-enter-active {
+        transition: all 0.3s ease-out;
+      }
+      .slide-down-leave-active {
+        transition: all 0.3s ease-in;
+      }
+      .slide-down-enter-from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      .slide-down-leave-to {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      .search-result-item {
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+      .search-result-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        transition: all 0.3s ease;
+      }
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        transition: all 0.3s ease;
+      }
+      .btn-secondary:hover {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        transform: translateY(-2px);
+      }
+      .section-title {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        border-left: 4px solid #3b82f6;
+      }
+      .text-white text-shadow-lg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .search-highlight {
+        background-color: rgba(255, 255, 0, 0.3);
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+      .skeleton {
+        background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+      }
+      @keyframes loading {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+      .notification-enter-active {
+        transition: all 0.3s ease-out;
+      }
+      .notification-leave-active {
+        transition: all 0.3s ease-in;
+      }
+      .notification-enter-from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+      .notification-leave-to {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+    </style>
+  </head>
+  <body class="gradient-bg min-h-screen font-poppins">
+    <div id="app" class="container mx-auto px-4 py-8">
+      <!-- Scroll to Top Button -->
+      <button
+        v-if="showScrollTop"
+        @click="scrollToTop"
+        class="fixed bottom-6 right-6 bg-gradient-to-br from-blue-500 to-purple-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-40"
+        title="Back to top"
+       title="Button" aria-label="Button">
+        <i class="fas fa-chevron-up"></i>
+      </button>
+
+      <!-- Notifications Container -->
+      <div class="fixed top-4 right-4 z-50 space-y-2 max-w-sm w-full">
+        <transition-group name="notification">
+          <div
+            v-for="notification in notifications"
+            :key="notification.id"
+            :class="[
+              'p-4 rounded-lg shadow-lg backdrop-blur-lg border transform transition-all duration-300',
+              notification.type === 'success' ? 'bg-green-500/20 border-green-500/30 text-green-100' :
+              notification.type === 'error' ? 'bg-red-500/20 border-red-500/30 text-red-100' :
+              'bg-blue-500/20 border-blue-500/30 text-blue-100'
+            ]"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <i
+                  :class="[
+                    'text-lg',
+                    notification.type === 'success' ? 'fas fa-check-circle' :
+                    notification.type === 'error' ? 'fas fa-exclamation-circle' :
+                    'fas fa-info-circle'
+                  ]"
+                ></i>
+                <span class="font-medium">{{ notification.message }}</span>
+              </div>
+              <button
+                @click="removeNotification(notification.id)"
+                class="text-gray-300 hover:text-white transition-colors"
+               title="Button" aria-label="Button">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </transition-group>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        class="mobile-menu fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col p-6 md:hidden"
+        :class="{ 'open': mobileMenuOpen }"
+      >
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="text-2xl font-bold font-oswald text-white">MODERN BLOG</h1>
+          <button @click="mobileMenuOpen = false" class="text-white text-2xl" title="Button" aria-label="Button" title="Button" aria-label="Button">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="flex-1 flex flex-col space-y-6">
+          <template v-if="user">
+            <!-- User info in mobile menu -->
+            <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 text-white">
+              <div class="flex items-center space-x-4">
+                <div
+                  class="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-purple-500"
+                >
+                  <img
+                    v-if="user.profile_picture"
+                    :src="user.profile_picture"
+                    class="w-full h-full profile-picture"
+                    alt="Profile picture"
+                  >
+                  <div
+                    v-else
+                    class="w-full h-full flex items-center justify-center"
+                  >
+                    <i class="fas fa-user text-white"></i>
+                  </div>
+                </div>
+                <div>
+                  <p class="font-bold">{{ user.full_name }}</p>
+                  <p class="text-sm text-gray-300">@{{ user.username }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navigation for logged in users -->
+            <button
+              @click="scrollToSection('dashboard')"
+              class="text-white text-lg text-left py-3 border-b border-white/20"
+             title="Button" aria-label="Button">
+              <i class="fas fa-tachometer-alt mr-3"></i>My Dashboard
+            </button>
+            <button
+              @click="scrollToSection('posts')"
+              class="text-white text-lg text-left py-3 border-b border-white/20"
+             title="Button" aria-label="Button">
+              <i class="fas fa-newspaper mr-3"></i>View Posts
+            </button>
+            <button
+              @click="showProfileEdit = true; mobileMenuOpen = false"
+              class="text-white text-lg text-left py-3 border-b border-white/20"
+             title="Button" aria-label="Button">
+              <i class="fas fa-user-edit mr-3"></i>Edit Profile
+            </button>
+            <button
+              @click="logout"
+              class="text-red-400 text-lg text-left py-3 border-b border-white/20"
+             title="Button" aria-label="Button">
+              <i class="fas fa-sign-out-alt mr-3"></i>Logout
+            </button>
+          </template>
+          <template v-else>
+            <!-- Navigation for guests -->
+            <button
+              @click="showLogin = true; mobileMenuOpen = false"
+              class="text-white text-lg text-left py-3 border-b border-white/20"
+             title="Button" aria-label="Button">
+              <i class="fas fa-sign-in-alt mr-3"></i>Login
+            </button>
+            <button
+              @click="showRegister = true; mobileMenuOpen = false"
+              class="text-white text-lg text-left py-3 border-b border-white/20"
+             title="Button" aria-label="Button">
+              <i class="fas fa-user-plus mr-3"></i>Sign Up
+            </button>
+            <button
+              @click="scrollToSection('posts')"
+              class="text-white text-lg text-left py-3 border-b border-white/20"
+             title="Button" aria-label="Button">
+              <i class="fas fa-newspaper mr-3"></i>View Posts
+            </button>
+          </template>
+        </div>
+
+        <div class="text-center text-gray-400 text-sm mt-8">
+          <p>Modern Blog Platform v2.8</p>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex justify-between items-center mb-16">
+        <div class="flex items-center space-x-4">
+          <!-- Mobile Hamburger Menu -->
+          <button
+            @click="mobileMenuOpen = true"
+            class="md:hidden text-white hamburger"
+            :class="{ 'active': mobileMenuOpen }"
+           title="Button" aria-label="Button">
+            <div class="w-6 h-6 flex flex-col justify-between">
+              <div class="hamburger-line w-full h-0.5 bg-white rounded"></div>
+              <div class="hamburger-line w-full h-0.5 bg-white rounded"></div>
+              <div class="hamburger-line w-full h-0.5 bg-white rounded"></div>
+            </div>
+          </button>
+
+          <div class="text-white">
+            <h1 class="text-2xl md:text-3xl font-bold font-oswald">MODERN BLOG</h1>
+          </div>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-4">
+          <template v-if="user">
+            <!-- Logged in user -->
+            <div class="flex items-center space-x-3 text-white">
+              <div
+                class="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-blue-400 to-purple-500"
+              >
+                <img
+                  v-if="user.profile_picture"
+                  :src="user.profile_picture"
+                  class="w-full h-full profile-picture"
+                  alt="Profile picture"
+                >
+                <div
+                  v-else
+                  class="w-full h-full flex items-center justify-center"
+                >
+                  <i class="fas fa-user text-white text-sm"></i>
+                </div>
+              </div>
+              <span class="font-medium hidden lg:block"
+                >{{ user.full_name }}</span
+              >
+              <button
+                @click="showProfileEdit = true"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+               title="Button" aria-label="Button">
+                <i class="fas fa-user-edit mr-2"></i
+                ><span class="hidden sm:inline">Profile</span>
+              </button>
+              <button
+                @click="logout"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
+               title="Button" aria-label="Button">
+                <i class="fas fa-sign-out-alt mr-2"></i
+                ><span class="hidden sm:inline">Logout</span>
+              </button>
+            </div>
+          </template>
+          <template v-else>
+            <!-- Not logged in user -->
+            <button
+              @click="showLogin = true"
+              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+             title="Button" aria-label="Button">
+              <i class="fas fa-sign-in-alt mr-2"></i
+              ><span class="hidden sm:inline">Login</span>
+            </button>
+            <button
+              @click="showRegister = true"
+              class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors"
+             title="Button" aria-label="Button">
+              <i class="fas fa-user-plus mr-2"></i
+              ><span class="hidden sm:inline">Sign Up</span>
+            </button>
+          </template>
+        </div>
+      </nav>
+
+      <!-- Global Search -->
+      <div class="max-w-2xl mx-auto mb-8" v-if="user && !selectedPost">
+        <div class="relative">
+          <input
+            v-model="globalSearch"
+            type="text"
+            placeholder="Search posts by title, content or author..."
+            class="w-full bg-white/10 border border-white/20 rounded-2xl px-6 py-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg backdrop-blur-lg"
+          />
+          <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          
+          <!-- Search Results Dropdown -->
+          <div
+            v-if="globalSearch.trim() && globalSearchResults.length > 0"
+            class="absolute top-full left-0 right-0 mt-2 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 max-h-80 overflow-y-auto z-50"
+          >
+            <div
+              v-for="result in globalSearchResults"
+              :key="result.id"
+              @click="viewPost(result)"
+              class="p-3 rounded-lg hover:bg-white/10 transition-colors cursor-pointer border-b border-white/10 last:border-b-0"
+            >
+              <h4 class="font-semibold text-white" v-html="highlightSearch(result.title, globalSearch)"></h4>
+              <p class="text-gray-300 text-sm mt-1" v-html="highlightSearch(result.excerpt.substring(0, 100) + '...', globalSearch)"></p>
+              <div class="flex items-center justify-between mt-2">
+                <span class="text-blue-300 text-xs">{{ result.author }}</span>
+                <span class="text-gray-400 text-xs">{{ formatDisplayDate(result.created_at) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Modal -->
+      <div
+        v-if="showLogin"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      >
+        <div
+          class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 md:p-8 max-w-md w-full text-white"
+        >
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold font-oswald">Login</h2>
+            <button
+              @click="closeLogin"
+              class="text-gray-300 hover:text-white transition-colors"
+             title="Button" aria-label="Button">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+
+          <form @submit.prevent="handleLogin" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2">Username</label>
+              <input
+                v-model="loginForm.username"
+                type="text"
+                required
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your username"
+              >
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Password</label>
+              <input
+                v-model="loginForm.password"
+                type="password"
+                required
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your password"
+              >
+            </div>
+
+            <button
+              type="submit"
+              :disabled="loading"
+              class="w-full btn-primary text-white py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+             title="Button" aria-label="Button">
+              <i class="fas fa-spinner fa-spin mr-2" v-if="loading"></i>
+              {{ loading ? 'Signing in...' : 'Login' }}
+            </button>
+          </form>
+
+          <div
+            v-if="error"
+            class="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-200 text-sm"
+          >
+            {{ error }}
+          </div>
+
+          <!-- Registration link -->
+          <div class="mt-4 text-center">
+            <p class="text-gray-300">Don't have an account?<button
+                @click="closeLoginAndOpenRegister"
+                class="text-blue-300 hover:text-blue-200 font-medium ml-1 transition-colors"
+               title="Button" aria-label="Button">Sign up here</button>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Modal -->
+      <div
+        v-if="showRegister"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      >
+        <div
+          class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 md:p-8 max-w-md w-full text-white"
+        >
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold font-oswald">Sign Up</h2>
+            <button
+              @click="closeRegister"
+              class="text-gray-300 hover:text-white transition-colors"
+             title="Button" aria-label="Button">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+
+          <form @submit.prevent="handleRegister" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2"
+                >Full Name</label
+              >
+              <input
+                v-model="registerForm.full_name"
+                type="text"
+                required
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Your full name"
+              >
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Username</label>
+              <input
+                v-model="registerForm.username"
+                type="text"
+                required
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Choose a username"
+              >
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Email</label>
+              <input
+                v-model="registerForm.email"
+                type="email"
+                required
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="your@email.com"
+              >
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Password</label>
+              <input
+                v-model="registerForm.password"
+                type="password"
+                required
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Minimum 6 characters"
+              >
+            </div>
+
+            <button
+              type="submit"
+              :disabled="loading"
+              class="w-full btn-secondary text-white py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+             title="Button" aria-label="Button">
+              <i class="fas fa-spinner fa-spin mr-2" v-if="loading"></i>
+              {{ loading ? 'Registering...' : 'Sign Up' }}
+            </button>
+          </form>
+
+          <div
+            v-if="error"
+            class="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-200 text-sm"
+          >
+            {{ error }}
+          </div>
+
+          <!-- Login link -->
+          <div class="mt-4 text-center">
+            <p class="text-gray-300">Already have an account?<button
+                @click="closeRegisterAndOpenLogin"
+                class="text-blue-300 hover:text-blue-200 font-medium ml-1 transition-colors"
+               title="Button" aria-label="Button">Sign in here</button>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Profile Modal -->
+      <div
+        v-if="showProfileEdit"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      >
+        <div
+          class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 md:p-8 max-w-2xl w-full text-white max-h-[90vh] overflow-y-auto"
+        >
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold font-oswald">Edit Complete Profile</h2>
+            <button
+              @click="closeProfileEdit"
+              class="text-gray-300 hover:text-white transition-colors"
+             title="Button" aria-label="Button">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+
+          <form @submit.prevent="updateProfile" class="space-y-6">
+            <!-- Profile Picture -->
+            <div class="text-center">
+              <div class="relative inline-block">
+                <div
+                  class="w-24 h-24 rounded-full overflow-hidden mx-auto bg-gradient-to-br from-blue-400 to-purple-500"
+                >
+                  <img
+                    v-if="profileEditForm.profile_picture"
+                    :src="profileEditForm.profile_picture"
+                    class="w-full h-full profile-picture"
+                    alt="Profile picture"
+                  >
+                  <div
+                    v-else
+                    class="w-full h-full flex items-center justify-center"
+                  >
+                    <i class="fas fa-user text-white text-2xl"></i>
+                  </div>
+                </div>
+                <label
+                  for="profile-picture-upload"
+                  class="absolute bottom-0 right-0 bg-blue-500 rounded-full p-2 cursor-pointer hover:bg-blue-600 transition-colors"
+                >
+                  <i class="fas fa-camera text-white text-xs"></i>
+                </label>
+                <input id="profile-picture-upload" type="file" accept="image/*" @change="handleProfilePictureChange" class="hidden" title="Upload profile picture" aria-label="Upload profile picture">
+              </div>
+              <p class="text-gray-300 text-sm mt-2">Click on the camera to change photo</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium mb-2"
+                  >Full Name</label
+                >
+                <input
+                  v-model="profileEditForm.full_name"
+                  type="text"
+                  class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Your full name"
+                >
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium mb-2">Email</label>
+                <input
+                  v-model="profileEditForm.email"
+                  type="email"
+                  class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="your@email.com"
+                >
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Bio</label>
+              <textarea
+                v-model="profileEditForm.bio"
+                rows="3"
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Tell us something about yourself..."
+              ></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium mb-2">Location</label>
+                <input
+                  v-model="profileEditForm.location"
+                  type="text"
+                  class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Your city or country"
+                >
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium mb-2">Website</label>
+                <input
+                  v-model="profileEditForm.website"
+                  type="url"
+                  class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="https://yoursite.com"
+                >
+              </div>
+            </div>
+
+            <div class="flex space-x-4 pt-4">
+              <button
+                type="submit"
+                :disabled="profileLoading"
+                class="btn-secondary text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 flex-1 disabled:opacity-50"
+               title="Button" aria-label="Button">
+                <i
+                  class="fas fa-spinner fa-spin mr-2"
+                  v-if="profileLoading"
+                ></i>
+                {{ profileLoading ? 'Updating...' : 'Update Profile' }}
+              </button>
+              <button
+                type="button"
+                @click="showDeleteConfirm = true"
+                class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+               title="Button" aria-label="Button">
+                <i class="fas fa-trash mr-2"></i>Delete Account
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Delete Account Confirmation -->
+      <div
+        v-if="showDeleteConfirm"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      >
+        <div
+          class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 md:p-8 max-w-md w-full text-white"
+        >
+          <div class="text-center">
+            <i
+              class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"
+            ></i>
+            <h3 class="text-xl font-bold mb-4">Delete Account Permanently?</h3>
+            <p class="text-gray-300 mb-6">
+              This action cannot be undone. All your posts and personal data will be deleted.
+            </p>
+            <div class="flex space-x-4">
+              <button
+                @click="deleteAccount"
+                class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex-1"
+               title="Button" aria-label="Button">Yes, Delete Account</button>
+              <button
+                @click="showDeleteConfirm = false"
+                class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex-1"
+               title="Button" aria-label="Button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post Detail Modal -->
+      <div
+        v-if="selectedPost"
+        class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 overflow-y-auto"
+      >
+        <div
+          class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 md:p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto text-white my-8"
+        >
+          <div class="flex justify-between items-start mb-6">
+            <div class="flex-1">
+              <h2 class="text-2xl md:text-4xl font-bold font-oswald mb-2">
+                {{ selectedPost.title }}
+              </h2>
+              <div
+                class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 text-gray-300"
+              >
+                <div class="flex items-center space-x-2">
+                  <div
+                    class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center"
+                  >
+                    <i class="fas fa-user text-white text-xs"></i>
+                  </div>
+                  <span class="font-medium">{{ selectedPost.author }}</span>
+                </div>
+                <span class="flex items-center">
+                  <i class="fas fa-calendar mr-2"></i>
+                  {{ selectedPost.created_at }}
+                </span>
+                <span
+                  v-if="selectedPost.is_owner"
+                  class="badge-owner text-white px-3 py-1 rounded-full text-xs font-medium"
+                >
+                  <i class="fas fa-crown mr-1"></i>Your Post
+                </span>
+              </div>
+            </div>
+            <button
+              @click="selectedPost = null"
+              class="text-gray-300 hover:text-white text-2xl p-2 ml-4"
+             title="Button" aria-label="Button">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <div class="post-content text-lg leading-relaxed">
+            <div v-html="formatPostContent(selectedPost.content)"></div>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-4">
+            <button
+              @click="selectedPost = null"
+              class="btn-primary text-white px-6 py-3 rounded-lg font-medium transition-all duration-300"
+             title="Button" aria-label="Button">
+              <i class="fas fa-arrow-left mr-2"></i>Back to Posts
+            </button>
+            <button
+              v-if="selectedPost.is_owner"
+              @click="editPost(selectedPost)"
+              class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+             title="Button" aria-label="Button">
+              <i class="fas fa-edit mr-2"></i>Edit Post
+            </button>
+            <button
+              v-if="selectedPost.is_owner"
+              @click="deletePost(selectedPost.id)"
+              class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+             title="Button" aria-label="Button">
+              <i class="fas fa-trash mr-2"></i>Delete Post
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Post Modal -->
+      <div
+        v-if="editingPost"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      >
+        <div
+          class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 md:p-8 max-w-2xl w-full text-white max-h-[90vh] overflow-y-auto"
+        >
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold font-oswald">Edit Post</h2>
+            <button
+              @click="editingPost = null"
+              class="text-gray-300 hover:text-white"
+             title="Button" aria-label="Button">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+
+          <form @submit.prevent="updatePost" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2">Title</label>
+              <input
+                v-model="editingPost.title"
+                type="text"
+                required
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Post title"
+              >
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Summary</label>
+              <input
+                v-model="editingPost.excerpt"
+                type="text"
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Brief description (optional)"
+              >
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Content</label>
+              <textarea
+                v-model="editingPost.content"
+                required
+                rows="8"
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Write your content here..."
+              ></textarea>
+            </div>
+
+            <div
+              class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4"
+            >
+              <button
+                type="submit"
+                :disabled="postLoading"
+                class="btn-secondary text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 flex-1 disabled:opacity-50"
+               title="Button" aria-label="Button">
+                <i class="fas fa-spinner fa-spin mr-2" v-if="postLoading"></i>
+                {{ postLoading ? 'Updating...' : 'Update Post' }}
+              </button>
+              <button
+                type="button"
+                @click="editingPost = null"
+                class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+               title="Button" aria-label="Button">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <header
+        class="text-center mb-16 text-white"
+        v-if="user && !selectedPost"
+        id="home"
+      >
+        <h1
+          class="text-4xl md:text-6xl font-bold mb-6 font-oswald tracking-tight"
+        >MODERN BLOG</h1>
+        <p
+          class="text-lg md:text-xl opacity-90 max-w-2xl mx-auto leading-relaxed px-4"
+        >A modern blogging platform built with FastAPI & Vue.js</p>
+        <div
+          class="w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto mt-6 rounded-full"
+        ></div>
+      </header>
+
+      <!-- Dashboard Stats -->
+      <div
+        class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16"
+        v-if="user && !selectedPost"
+        id="stats"
+      >
+        <div
+          class="stats-card rounded-2xl p-6 md:p-8 text-white text-center hover-lift"
+        >
+          <div
+            class="bg-gradient-to-br from-blue-500 to-blue-600 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <i class="fas fa-newspaper text-xl md:text-2xl"></i>
+          </div>
+          <div class="text-2xl md:text-3xl font-bold font-oswald mb-2">
+            {{ posts.length }}
+          </div>
+          <div class="text-blue-200 font-medium text-sm md:text-base">PUBLISHED POSTS</div>
+        </div>
+
+        <div
+          class="stats-card rounded-2xl p-6 md:p-8 text-white text-center hover-lift"
+        >
+          <div
+            class="bg-gradient-to-br from-green-500 to-green-600 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <i class="fas fa-users text-xl md:text-2xl"></i>
+          </div>
+          <div class="text-2xl md:text-3xl font-bold font-oswald mb-2">
+            {{ dashboardStats.total_users || 0 }}
+          </div>
+          <div class="text-green-200 font-medium text-sm md:text-base">REGISTERED USERS</div>
+        </div>
+
+        <div
+          class="stats-card rounded-2xl p-6 md:p-8 text-white text-center hover-lift"
+        >
+          <div
+            class="bg-gradient-to-br from-purple-500 to-purple-600 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <i class="fas fa-rocket text-xl md:text-2xl"></i>
+          </div>
+          <div class="text-lg md:text-xl font-bold font-oswald mb-2">
+            {{ user ? 'Connected' : 'Guest' }}
+          </div>
+          <div class="text-purple-200 font-medium text-sm md:text-base">STATUS</div>
+        </div>
+      </div>
+
+      <!-- Welcome Post for Non-Logged Users -->
+      <div v-if="!user && !selectedPost" class="max-w-4xl mx-auto mb-16">
+        <div
+          class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-8 md:p-12 text-center text-white hover-lift"
+        >
+          <div
+            class="bg-gradient-to-br from-blue-500 to-purple-600 w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center mx-auto mb-6"
+          >
+            <i class="fas fa-blog text-white text-2xl md:text-3xl"></i>
+          </div>
+          <h2 class="text-2xl md:text-4xl font-bold font-oswald mb-4">Welcome to Modern Blog!</h2>
+          <p class="text-lg md:text-xl text-gray-200 mb-6 leading-relaxed">
+            Discover a modern platform to share your ideas, knowledge and experiences. Join our blogging community and start creating amazing content.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              @click="showRegister = true"
+              class="btn-secondary text-white px-8 py-3 rounded-lg font-medium text-lg"
+             title="Button" aria-label="Button">
+              <i class="fas fa-user-plus mr-2"></i>Sign Up
+            </button>
+            <button
+              @click="showLogin = true"
+              class="btn-primary text-white px-8 py-3 rounded-lg font-medium text-lg"
+             title="Button" aria-label="Button">
+              <i class="fas fa-sign-in-alt mr-2"></i>Login
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Posts Section - ALWAYS VISIBLE -->
+      <div
+        class="max-w-6xl mx-auto"
+        v-if="!selectedPost && posts.length > 0"
+        id="posts"
+      >
+        <h2
+          class="text-3xl md:text-4xl font-bold text-white mb-8 md:mb-12 text-center font-oswald tracking-wide"
+        >LATEST POSTS</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+          <div
+            v-for="post in posts"
+            :key="post.id"
+            class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 md:p-8 text-white hover-lift group"
+            :id="'post-' + post.id"
+          >
+            <!-- Post Header -->
+            <div class="flex items-center justify-between mb-4">
+              <span
+                :class="['px-3 py-1 rounded-full text-xs font-medium', post.is_owner ? 'badge-owner' : 'badge-other']"
+              >
+                <i
+                  :class="['mr-1', post.is_owner ? 'fas fa-crown' : 'fas fa-tag']"
+                ></i>
+                {{ post.is_owner ? 'Your Post' : 'Blog Post' }}
+              </span>
+              <span class="text-gray-300 text-xs md:text-sm">
+                <i class="fas fa-calendar mr-1"></i>{{ post.created_at }}
+              </span>
+            </div>
+
+            <!-- Post Title -->
+            <h3
+              class="text-xl md:text-2xl font-bold mb-4 font-oswald group-hover:text-blue-300 transition-colors"
+            >
+              {{ post.title }}
+            </h3>
+
+            <!-- Post Excerpt -->
+            <p class="text-gray-200 mb-6 leading-relaxed text-base md:text-lg">
+              {{ post.excerpt }}
+            </p>
+
+            <!-- Post Footer -->
+            <div
+              class="flex items-center justify-between pt-4 border-t border-white/10"
+            >
+              <div class="flex items-center space-x-3">
+                <div
+                  class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center"
+                >
+                  <i class="fas fa-user text-white text-xs"></i>
+                </div>
+                <span class="text-gray-300 font-medium text-sm md:text-base"
+                  >{{ post.author }}</span
+                >
+              </div>
+              <div class="flex space-x-2">
+                <button
+                  @click="viewPost(post)"
+                  class="btn-primary text-white px-4 py-2 md:px-6 md:py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 text-sm md:text-base"
+                 title="Button" aria-label="Button">Read More<i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button
+                  v-if="post.is_owner"
+                  @click="editPost(post)"
+                  class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-full transition-colors"
+                 title="Button" aria-label="Button">
+                  <i class="fas fa-edit text-xs"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Dashboard (only for logged users) -->
+      <div
+        v-if="user && !selectedPost"
+        class="max-w-6xl mx-auto mt-16 md:mt-20"
+        id="dashboard"
+      >
+        <h2
+          class="text-2xl md:text-3xl font-bold text-white mb-6 md:mb-8 text-center font-oswald"
+        >YOUR DASHBOARD - COMPLETE MANAGEMENT</h2>
+
+        <!-- User Profile -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 md:p-8 text-white mb-8">
+          <div
+            class="flex flex-col md:flex-row items-center md:items-start gap-6"
+          >
+            <div class="text-center md:text-left">
+              <div class="relative inline-block">
+                <div
+                  class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden mx-auto bg-gradient-to-br from-blue-400 to-purple-500"
+                >
+                  <img
+                    v-if="user.profile_picture"
+                    :src="user.profile_picture"
+                    class="w-full h-full profile-picture"
+                    alt="Profile picture"
+                  >
+                  <div
+                    v-else
+                    class="w-full h-full flex items-center justify-center"
+                  >
+                    <i class="fas fa-user text-white text-2xl"></i>
+                  </div>
+                </div>
+                <button
+                  @click="showProfileEdit = true"
+                  class="absolute bottom-0 right-0 bg-blue-500 rounded-full p-2 hover:bg-blue-600 transition-colors"
+                 title="Button" aria-label="Button">
+                  <i class="fas fa-edit text-white text-xs"></i>
+                </button>
+              </div>
+            </div>
+            <div class="flex-1 text-center md:text-left">
+              <h3 class="text-xl md:text-2xl font-bold mb-2">
+                {{ user.full_name }}
+              </h3>
+              <p class="text-gray-300 mb-2 text-sm md:text-base">
+                @{{ user.username }}
+              </p>
+              <p class="text-blue-300 text-sm md:text-base mb-2">
+                <i class="fas fa-envelope mr-2"></i>{{ user.email }}
+              </p>
+              <p class="text-green-300 text-sm md:text-base mb-2">
+                <i class="fas fa-calendar mr-2"></i>Member since: {{
+                formatDate(user.created_at) }}
+              </p>
+              <div v-if="user.bio" class="text-gray-200 text-sm mt-2">
+                <i class="fas fa-quote-left mr-2 opacity-50"></i>{{ user.bio }}
+              </div>
+              <div class="flex flex-wrap gap-4 mt-3 text-xs text-gray-400">
+                <span v-if="user.location" class="flex items-center">
+                  <i class="fas fa-map-marker-alt mr-1"></i>{{ user.location }}
+                </span>
+                <span v-if="user.website" class="flex items-center">
+                  <i class="fas fa-globe mr-1"></i>{{ user.website }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 text-center hover-lift">
+            <div class="text-2xl font-bold text-blue-400">
+              {{ userStats.total_posts || 0 }}
+            </div>
+            <div class="text-gray-300 text-sm">Total Posts</div>
+          </div>
+          <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 text-center hover-lift">
+            <div class="text-2xl font-bold text-green-400">
+              {{ userStats.total_words || 0 }}
+            </div>
+            <div class="text-gray-300 text-sm">Words Written</div>
+          </div>
+          <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 text-center hover-lift">
+            <div class="text-lg font-bold text-purple-400">
+              {{ userStats.last_post_date || 'No posts' }}
+            </div>
+            <div class="text-gray-300 text-sm">Last Post</div>
+          </div>
+        </div>
+
+        <!-- Create New Post -->
+        <div class="mt-8">
+          <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6">
+            <div class="mb-6">
+              <h3 class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-plus-circle mr-3 text-xl text-blue-400"></i>Create New Post</h3>
+            </div>
+
+            <div class="mt-2">
+                <form @submit.prevent="createNewPost" class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium mb-2">Title</label>
+                    <input
+                      v-model="newPost.title"
+                      type="text"
+                      required
+                      class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Write an interesting title..."
+                    >
+                  </div>
+
+                  <div>
+                    <label class="block text-sm font-medium mb-2"
+                      >Summary</label
+                    >
+                    <input
+                      v-model="newPost.excerpt"
+                      type="text"
+                      class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Brief description (optional)"
+                    >
+                  </div>
+
+                  <div>
+                    <label class="block text-sm font-medium mb-2"
+                      >Content</label
+                    >
+                    <textarea
+                      v-model="newPost.content"
+                      required
+                      rows="6"
+                      class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Write your content here..."
+                    ></textarea>
+                  </div>
+
+                  <div class="flex space-x-4">
+                    <button
+                      type="submit"
+                      :disabled="postLoading"
+                      class="btn-secondary text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 disabled:opacity-50 flex-1"
+                     title="Button" aria-label="Button">
+                      <i
+                        class="fas fa-spinner fa-spin mr-2"
+                        v-if="postLoading"
+                      ></i>
+                      {{ postLoading ? 'Publishing...' : 'Publish Post' }}
+                    </button>
+                    <button
+                      type="button"
+                      class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                     title="Button" aria-label="Button">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            
+          </div>
+        </div>
+
+        <!-- My Posts -->
+        <div class="mt-8">
+          <div class="bg-slate-800 border-l-4 border-blue-500 rounded-lg p-4 mb-6 shadow-lg">
+            <h3
+              class="text-xl md:text-2xl font-bold font-oswald text-white text-white text-shadow-lg"
+            >My Posts - Complete Management</h3>
+          </div>
+
+          <!-- Search -->
+          <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 mb-6">
+            <div class="relative">
+              <input
+                v-model="searchMyPosts"
+                type="text"
+                placeholder="Search in my posts..."
+                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+              >
+              <button
+                v-if="searchMyPosts.trim()"
+                @click="searchMyPosts = ''"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+               title="Button" aria-label="Button">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <!-- Real-time search results -->
+            <div
+              v-if="searchMyPosts.trim() && searchResults.length > 0"
+              class="mt-4 space-y-2 max-h-60 overflow-y-auto"
+            >
+              <div
+                v-for="result in searchResults"
+                :key="result.id"
+                @click="goToPost(result)"
+                class="search-result-item p-3 rounded-lg bg-white/5 border border-white/10"
+              >
+                <div class="flex justify-between items-center">
+                  <div>
+                    <h4
+                      class="font-semibold text-white text-sm"
+                      v-html="highlightSearch(result.title, searchMyPosts)"
+                    ></h4>
+                    <p
+                      class="text-gray-300 text-xs mt-1"
+                      v-html="highlightSearch(result.excerpt.substring(0, 80) + '...', searchMyPosts)"
+                    ></p>
+                  </div>
+                  <button
+                    class="btn-primary text-white px-3 py-1 rounded text-xs"
+                   title="Button" aria-label="Button">Go to Post</button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              v-if="searchMyPosts.trim() && searchResults.length === 0"
+              class="mt-4 text-center text-gray-400 text-sm"
+            >
+              No posts found matching "{{ searchMyPosts }}"
+            </div>
+          </div>
+
+          <!-- My Posts List -->
+          <div v-if="filteredAndSortedPosts.length > 0" class="space-y-4">
+            <div
+              v-for="post in filteredAndSortedPosts"
+              :key="post.id"
+              class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 hover-lift transition-all duration-300"
+              :id="'my-post-' + post.id"
+            >
+              <div
+                class="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4"
+              >
+                <!-- Post Content -->
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-3">
+                    <h4 class="text-lg md:text-xl font-bold text-white">
+                      {{ post.title }}
+                    </h4>
+                    <span
+                      class="badge-owner text-white px-2 py-1 rounded-full text-xs font-medium"
+                    >
+                      <i class="fas fa-crown mr-1"></i>Your Post
+                    </span>
+                  </div>
+
+                  <p class="text-gray-300 text-sm mb-3 leading-relaxed">
+                    {{ post.excerpt }}
+                  </p>
+
+                  <div class="flex flex-wrap gap-3 text-xs text-gray-400">
+                    <span class="flex items-center">
+                      <i class="fas fa-calendar mr-1"></i>
+                      Created: {{ formatDisplayDate(post.created_at) }}
+                    </span>
+                    <span v-if="post.updated_at" class="flex items-center">
+                      <i class="fas fa-edit mr-1"></i>
+                      Edited: {{ formatDisplayDate(post.updated_at) }}
+                    </span>
+                    <span class="flex items-center">
+                      <i class="fas fa-font mr-1"></i>
+                      {{ countWords(post.content) }} words
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col sm:flex-row lg:flex-col gap-2">
+                  <button
+                    @click="viewPost(post)"
+                    class="btn-primary text-white px-4 py-2 rounded-lg transition-colors flex items-center justify-center"
+                   title="Button" aria-label="Button">
+                    <i class="fas fa-eye mr-2"></i>View
+                  </button>
+                  <button
+                    @click="editPost(post)"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center justify-center"
+                   title="Button" aria-label="Button">
+                    <i class="fas fa-edit mr-2"></i>Edit
+                  </button>
+                  <button
+                    @click="deletePost(post.id)"
+                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center justify-center"
+                   title="Button" aria-label="Button">
+                    <i class="fas fa-trash mr-2"></i>Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div
+            v-else-if="myPosts.length === 0"
+            class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-8 text-center text-gray-300"
+          >
+            <i class="fas fa-edit text-4xl mb-4 opacity-50"></i>
+            <p class="text-lg mb-4">You haven't created any posts yet.</p>
+            <button
+              @click="openCreatePostWithEffect"
+              class="btn-secondary text-white px-6 py-3 rounded-lg font-medium transition-all duration-300"
+             title="Button" aria-label="Button">
+              <i class="fas fa-plus mr-2"></i>Create Your First Post
+            </button>
+          </div>
+
+          <!-- Message when no search results -->
+          <div
+            v-else-if="searchMyPosts.trim()"
+            class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-8 text-center text-gray-300"
+          >
+            <i class="fas fa-search text-4xl mb-4 opacity-50"></i>
+            <p class="text-lg mb-4">
+              No posts found matching "{{ searchMyPosts }}"
+            </p>
+            <button
+              @click="searchMyPosts = ''"
+              class="btn-primary text-white px-6 py-3 rounded-lg font-medium transition-colors"
+             title="Button" aria-label="Button">
+              <i class="fas fa-times mr-2"></i>Clear Search
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer
+        class="text-center mt-16 md:mt-20 text-white/70"
+        v-if="user && !selectedPost"
+      >
+        <div class="bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 rounded-2xl p-6 md:p-8 max-w-2xl mx-auto">
+          <h3 class="text-xl md:text-2xl font-bold mb-4 font-oswald">MODERN BLOG PLATFORM v2.8</h3>
+          <p class="text-base md:text-lg mb-6">Built with FastAPI, Vue.js and Tailwind CSS</p>
+          <div class="flex justify-center space-x-6 text-2xl mb-4">
+            <i
+              class="fab fa-python text-blue-400 hover:text-blue-300 cursor-pointer transition-colors"
+            ></i>
+            <i
+              class="fab fa-vuejs text-green-400 hover:text-green-300 cursor-pointer transition-colors"
+            ></i>
+            <i
+              class="fab fa-js-square text-yellow-400 hover:text-yellow-300 cursor-pointer transition-colors"
+            ></i>
+          </div>
+          <div
+            v-if="dashboardStats.most_active_user"
+            class="text-sm text-gray-400"
+          >
+            <i class="fas fa-fire mr-2"></i>Most active user: {{
+            dashboardStats.most_active_user }}
+          </div>
+          <p class="text-xs md:text-sm mt-4 text-gray-400">
+            Complete blogging system with advanced statistics and persistent post management
+          </p>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const { createApp, ref, onMounted, computed, watch } = Vue;
+
+      createApp({
+        setup() {
+          // Application state variables
+          const posts = ref([]);
+          const user = ref(null);
+          const loading = ref(false);
+          const error = ref("");
+          const showLogin = ref(false);
+          const showRegister = ref(false);
+          const showProfileEdit = ref(false);
+          const showDeleteConfirm = ref(false);
+          const mobileMenuOpen = ref(false);
+          const showScrollTop = ref(false);
+
+          // Form data
+          const newPost = ref({
+            title: "",
+            content: "",
+            excerpt: "",
+          });
+
+          const myPosts = ref([]);
+          const postLoading = ref(false);
+          const profileLoading = ref(false);
+          const selectedPost = ref(null);
+          const editingPost = ref(null);
+
+          const loginForm = ref({
+            username: "",
+            password: "",
+          });
+
+          const registerForm = ref({
+            full_name: "",
+            username: "",
+            email: "",
+            password: "",
+          });
+
+          const profileEditForm = ref({
+            full_name: "",
+            email: "",
+            profile_picture: null,
+            bio: "",
+            location: "",
+            website: "",
+          });
+
+          // Variables for statistics and search
+          const userStats = ref({
+            total_posts: 0,
+            total_words: 0,
+            average_words_per_post: 0,
+            last_post_date: null,
+          });
+
+          const dashboardStats = ref({
+            total_users: 0,
+            total_posts: 0,
+            total_words: 0,
+            most_active_user: null,
+          });
+
+          const searchMyPosts = ref("");
+          const globalSearch = ref("");
+          const currentPage = ref(1);
+          const postsPerPage = 5;
+          const sortOrder = ref("newest");
+          const notifications = ref([]);
+
+          // API configuration
+          const API_BASE = "/api";
+
+          const getAuthHeaders = () => {
+            const token = localStorage.getItem("token");
+            return token
+              ? {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                }
+              : {};
+          };
+
+          // Computed properties
+          const searchResults = computed(() => {
+            if (!searchMyPosts.value.trim()) return [];
+
+            const query = searchMyPosts.value.toLowerCase().trim();
+            return myPosts.value
+              .filter(
+                (post) =>
+                  post.title.toLowerCase().includes(query) ||
+                  post.content.toLowerCase().includes(query) ||
+                  post.excerpt.toLowerCase().includes(query)
+              )
+              .slice(0, 5);
+          });
+
+          const globalSearchResults = computed(() => {
+            if (!globalSearch.value.trim()) return [];
+
+            const query = globalSearch.value.toLowerCase().trim();
+            return posts.value
+              .filter(post =>
+                post.title.toLowerCase().includes(query) ||
+                post.content.toLowerCase().includes(query) ||
+                post.excerpt.toLowerCase().includes(query) ||
+                post.author.toLowerCase().includes(query)
+              )
+              .slice(0, 10);
+          });
+
+          const filteredAndSortedPosts = computed(() => {
+            let filtered = myPosts.value;
+
+            if (searchMyPosts.value.trim()) {
+              const query = searchMyPosts.value.toLowerCase().trim();
+              filtered = filtered.filter(
+                (post) =>
+                  post.title.toLowerCase().includes(query) ||
+                  post.content.toLowerCase().includes(query) ||
+                  post.excerpt.toLowerCase().includes(query)
+              );
+            }
+
+            filtered = [...filtered].sort((a, b) => {
+              const dateA = new Date(a.created_at);
+              const dateB = new Date(b.created_at);
+              return sortOrder.value === "newest"
+                ? dateB - dateA
+                : dateA - dateB;
+            });
+
+            const start = (currentPage.value - 1) * postsPerPage;
+            const end = start + postsPerPage;
+            return filtered.slice(start, end);
+          });
+
+          const totalPages = computed(() => {
+            const totalPosts = searchMyPosts.value.trim()
+              ? myPosts.value.filter(
+                  (post) =>
+                    post.title
+                      .toLowerCase()
+                      .includes(searchMyPosts.value.toLowerCase().trim()) ||
+                    post.content
+                      .toLowerCase()
+                      .includes(searchMyPosts.value.toLowerCase().trim()) ||
+                    post.excerpt
+                      .toLowerCase()
+                      .includes(searchMyPosts.value.toLowerCase().trim())
+                ).length
+              : myPosts.value.length;
+
+            return Math.ceil(totalPosts / postsPerPage);
+          });
+
+          // Functions to get data from API
+          const fetchPosts = async () => {
+            try {
+              const headers = getAuthHeaders();
+              const response = await fetch(`${API_BASE}/posts`, { headers });
+              if (response.ok) {
+                posts.value = await response.json();
+              }
+            } catch (error) {
+              console.error("Error getting posts:", error);
+            }
+          };
+
+          const fetchMyPosts = async () => {
+            try {
+              const token = localStorage.getItem("token");
+              if (!token) return;
+              
+              const response = await fetch(`${API_BASE}/posts/my-posts`, {
+                headers: getAuthHeaders(),
+              });
+              if (response.ok) {
+                myPosts.value = await response.json();
+                fetchUserStats();
+              }
+            } catch (error) {
+              console.error("Error getting user posts:", error);
+            }
+          };
+
+          const fetchDashboardStats = async () => {
+            try {
+              const response = await fetch(`${API_BASE}/dashboard/stats`);
+              if (response.ok) {
+                dashboardStats.value = await response.json();
+              }
+            } catch (error) {
+              console.error("Error getting dashboard statistics:", error);
+            }
+          };
+
+          // Utility functions
+          const countWords = (text) => {
+            if (!text) return 0;
+            return text.split(/\s+/).filter((word) => word.length > 0).length;
+          };
+
+          const fetchUserStats = async () => {
+            if (!user.value) return;
+
+            try {
+              const response = await fetch(
+                `${API_BASE}/users/${user.value.id}/stats`
+              );
+              if (response.ok) {
+                userStats.value = await response.json();
+              }
+            } catch (error) {
+              console.error("Error getting statistics:", error);
+            }
+          };
+
+          const highlightSearch = (text, query) => {
+            if (!query.trim()) return text;
+            const regex = new RegExp(`(${query})`, "gi");
+            return text.replace(
+              regex,
+              '<span class="search-highlight">$1</span>'
+            );
+          };
+
+          // Date formatting functions
+          const formatDisplayDate = (dateString) => {
+            if (!dateString) return "N/A";
+            const date = new Date(dateString);
+            return date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            });
+          };
+
+          const formatDate = (dateString) => {
+            return new Date(dateString).toLocaleDateString("en-US");
+          };
+
+          // Notification system
+          const showNotification = (message, type = "info") => {
+            const id = Date.now() + Math.random();
+            notifications.value.push({
+              id,
+              message,
+              type
+            });
+            
+            setTimeout(() => {
+              removeNotification(id);
+            }, 5000);
+          };
+
+          const removeNotification = (id) => {
+            notifications.value = notifications.value.filter(n => n.id !== id);
+          };
+
+          // Scroll handling
+          const handleScroll = () => {
+            showScrollTop.value = window.scrollY > 300;
+          };
+
+          const scrollToTop = () => {
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          };
+
+          // Authentication functions
+          const checkAuth = async () => {
+            const token = localStorage.getItem("token");
+            const savedUser = localStorage.getItem("user");
+
+            if (token && savedUser) {
+              try {
+                const response = await fetch(`${API_BASE}/auth/me`, {
+                  headers: getAuthHeaders(),
+                });
+
+                if (response.ok) {
+                  user.value = JSON.parse(savedUser);
+                  fetchMyPosts();
+                  fetchUserStats();
+                  fetchPosts();
+                } else {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("user");
+                }
+              } catch (error) {
+                console.error("Error in authentication verification:", error);
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+              }
+            }
+          };
+
+          const scrollToSection = (sectionId) => {
+            mobileMenuOpen.value = false;
+            const element = document.getElementById(sectionId);
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth" });
+            }
+          };
+
+          const goToPost = (post) => {
+            searchMyPosts.value = "";
+            const postElement = document.getElementById(`my-post-${post.id}`);
+            if (postElement) {
+              postElement.scrollIntoView({ behavior: "smooth" });
+              postElement.style.transition = "all 0.5s ease";
+              postElement.style.boxShadow = "0 0 30px rgba(59, 130, 246, 0.5)";
+              setTimeout(() => {
+                postElement.style.boxShadow = "";
+              }, 2000);
+            }
+          };
+
+          // Modal handling functions
+          const closeLogin = () => {
+            showLogin.value = false;
+            error.value = "";
+            loginForm.value = { username: "", password: "" };
+          };
+
+          const closeRegister = () => {
+            showRegister.value = false;
+            error.value = "";
+            registerForm.value = {
+              full_name: "",
+              username: "",
+              email: "",
+              password: "",
+            };
+          };
+
+          const closeProfileEdit = () => {
+            showProfileEdit.value = false;
+            if (user.value) {
+              profileEditForm.value = {
+                full_name: user.value.full_name || "",
+                email: user.value.email || "",
+                profile_picture: user.value.profile_picture || null,
+                bio: user.value.bio || "",
+                location: user.value.location || "",
+                website: user.value.website || "",
+              };
+            }
+          };
+
+          const closeLoginAndOpenRegister = () => {
+            closeLogin();
+            showRegister.value = true;
+          };
+
+          const closeRegisterAndOpenLogin = () => {
+            closeRegister();
+            showLogin.value = true;
+          };
+
+          const openCreatePostWithEffect = () => {
+            setTimeout(() => {
+              const element = document.getElementById("dashboard");
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+              }
+            }, 300);
+          };
+
+          const initProfileEditForm = () => {
+            if (user.value) {
+              profileEditForm.value = {
+                full_name: user.value.full_name,
+                email: user.value.email,
+                profile_picture: user.value.profile_picture,
+                bio: user.value.bio || "",
+                location: user.value.location || "",
+                website: user.value.website || "",
+              };
+            }
+          };
+
+          // Login handling
+          const handleLogin = async () => {
+            loading.value = true;
+            error.value = "";
+
+            try {
+              const response = await fetch(`${API_BASE}/auth/login`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(loginForm.value),
+              });
+
+              const data = await response.json();
+
+              if (response.ok) {
+                localStorage.setItem("token", data.access_token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                user.value = data.user;
+                closeLogin();
+                fetchMyPosts();
+                fetchUserStats();
+                fetchPosts();
+                fetchDashboardStats();
+                showNotification("Login successful!", "success");
+              } else {
+                error.value =
+                  data.detail || "Error in login process";
+                showNotification(error.value, "error");
+              }
+            } catch (err) {
+              error.value = "Server connection error";
+              showNotification(error.value, "error");
+            } finally {
+              loading.value = false;
+            }
+          };
+
+          // Logout
+          const logout = () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            user.value = null;
+            myPosts.value = [];
+            userStats.value = {
+              total_posts: 0,
+              total_words: 0,
+              average_words_per_post: 0,
+              last_post_date: null,
+            };
+            mobileMenuOpen.value = false;
+            showNotification("Logged out successfully", "info");
+            
+            // Force full page reload to show only welcome post
+            setTimeout(() => {
+              window.location.reload();
+            }, 100);
+          };
+
+          // Profile picture handling
+          const handleProfilePictureChange = (event) => {
+            const file = event.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                profileEditForm.value.profile_picture = e.target.result;
+              };
+              reader.readAsDataURL(file);
+            }
+          };
+
+          // Registration handling
+          const handleRegister = async () => {
+            loading.value = true;
+            error.value = "";
+
+            if (!registerForm.value.full_name || !registerForm.value.username || !registerForm.value.email || !registerForm.value.password) {
+              error.value = "All fields are required";
+              loading.value = false;
+              return;
+            }
+
+            if (registerForm.value.password.length < 6) {
+              error.value = "Password must be at least 6 characters";
+              loading.value = false;
+              return;
+            }
+
+            try {
+              const response = await fetch(`${API_BASE}/auth/register`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(registerForm.value),
+              });
+
+              const data = await response.json();
+
+              if (response.ok) {
+                // Auto login after registration
+                const loginResponse = await fetch(`${API_BASE}/auth/login`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    username: registerForm.value.username,
+                    password: registerForm.value.password,
+                  }),
+                });
+
+                if (loginResponse.ok) {
+                  const loginData = await loginResponse.json();
+                  localStorage.setItem("token", loginData.access_token);
+                  localStorage.setItem("user", JSON.stringify(loginData.user));
+                  user.value = loginData.user;
+                  closeRegister();
+                  
+                  await fetchMyPosts();
+                  await fetchPosts();
+                  await fetchDashboardStats();
+                  
+                  showNotification("Registration successful! Welcome " + registerForm.value.full_name, "success");
+                } else {
+                  error.value = "Registration successful, but error in automatic login";
+                  showNotification(error.value, "error");
+                }
+              } else {
+                error.value = data.detail || "Registration error";
+                showNotification(error.value, "error");
+              }
+            } catch (err) {
+              console.error("Registration error:", err);
+              error.value = "Server connection error";
+              showNotification(error.value, "error");
+            } finally {
+              loading.value = false;
+            }
+          };
+
+          // Update user profile
+          const updateProfile = async () => {
+            profileLoading.value = true;
+            try {
+              const response = await fetch(`${API_BASE}/auth/profile`, {
+                method: "PUT",
+                headers: getAuthHeaders(),
+                body: JSON.stringify(profileEditForm.value),
+              });
+
+              if (response.ok) {
+                const updatedUser = await response.json();
+                user.value = updatedUser;
+                localStorage.setItem("user", JSON.stringify(updatedUser));
+                closeProfileEdit();
+                showNotification("Profile updated successfully", "success");
+              } else {
+                const errorData = await response.json();
+                showNotification(errorData.detail || "Error updating profile", "error");
+              }
+            } catch (error) {
+              showNotification("Connection error updating profile", "error");
+            } finally {
+              profileLoading.value = false;
+            }
+          };
+
+          // Delete user account
+          const deleteAccount = async () => {
+            try {
+              const response = await fetch(`${API_BASE}/auth/profile`, {
+                method: "DELETE",
+                headers: getAuthHeaders(),
+              });
+
+              if (response.ok) {
+                showNotification("Account deleted successfully", "success");
+                logout();
+                showDeleteConfirm.value = false;
+                showProfileEdit.value = false;
+                fetchDashboardStats();
+              } else {
+                const errorData = await response.json();
+                showNotification(errorData.detail || "Error deleting account", "error");
+              }
+            } catch (error) {
+              showNotification("Connection error deleting account", "error");
+            }
+          };
+
+          // Post management functions
+          const createNewPost = async () => {
+            postLoading.value = true;
+            try {
+              const response = await fetch(`${API_BASE}/posts`, {
+                method: "POST",
+                headers: getAuthHeaders(),
+                body: JSON.stringify(newPost.value),
+              });
+
+              if (response.ok) {
+                const createdPost = await response.json();
+                myPosts.value.unshift(createdPost);
+                posts.value.unshift(createdPost);
+                newPost.value = { title: "", content: "", excerpt: "" };
+                fetchUserStats();
+                fetchDashboardStats();
+                showNotification("Post created successfully!", "success");
+              } else {
+                const errorData = await response.json();
+                showNotification(errorData.detail || "Error creating post", "error");
+              }
+            } catch (error) {
+              showNotification("Connection error creating post", "error");
+            } finally {
+              postLoading.value = false;
+            }
+          };
+
+          const editPost = (post) => {
+            editingPost.value = { ...post };
+            selectedPost.value = null;
+          };
+
+          const updatePost = async () => {
+            postLoading.value = true;
+            try {
+              const response = await fetch(
+                `${API_BASE}/posts/${editingPost.value.id}`,
+                {
+                  method: "PUT",
+                  headers: getAuthHeaders(),
+                  body: JSON.stringify(editingPost.value),
+                }
+              );
+
+              if (response.ok) {
+                const updatedPost = await response.json();
+                const index = myPosts.value.findIndex(
+                  (p) => p.id === updatedPost.id
+                );
+                if (index !== -1) {
+                  myPosts.value[index] = updatedPost;
+                }
+                const postsIndex = posts.value.findIndex(
+                  (p) => p.id === updatedPost.id
+                );
+                if (postsIndex !== -1) {
+                  posts.value[postsIndex] = updatedPost;
+                }
+                editingPost.value = null;
+                fetchUserStats();
+                showNotification("Post updated successfully!", "success");
+              } else {
+                const errorData = await response.json();
+                showNotification(errorData.detail || "Error updating post", "error");
+              }
+            } catch (error) {
+              showNotification("Connection error updating post", "error");
+            } finally {
+              postLoading.value = false;
+            }
+          };
+
+          const deletePost = async (postId) => {
+            if (
+              !confirm(
+                "Are you sure you want to delete this post? This action cannot be undone."
+              )
+            )
+              return;
+
+            try {
+              const response = await fetch(`${API_BASE}/posts/${postId}`, {
+                method: "DELETE",
+                headers: getAuthHeaders(),
+              });
+
+              if (response.ok) {
+                myPosts.value = myPosts.value.filter(
+                  (post) => post.id !== postId
+                );
+                posts.value = posts.value.filter((post) => post.id !== postId);
+                selectedPost.value = null;
+                editingPost.value = null;
+                fetchUserStats();
+                fetchDashboardStats();
+                showNotification("Post deleted successfully", "success");
+              } else {
+                const errorData = await response.json();
+                showNotification(errorData.detail || "Error deleting post", "error");
+              }
+            } catch (error) {
+              showNotification("Connection error deleting post", "error");
+            }
+          };
+
+          const viewPost = async (post) => {
+            try {
+              const headers = getAuthHeaders();
+              const response = await fetch(`${API_BASE}/posts/${post.id}`, {
+                headers,
+              });
+              if (response.ok) {
+                selectedPost.value = await response.json();
+              } else {
+                console.error("Error getting post details");
+                // Fallback: use basic post data
+                selectedPost.value = post;
+              }
+            } catch (error) {
+              console.error("Error viewing post:", error);
+              // Fallback: use basic post data
+              selectedPost.value = post;
+            }
+          };
+
+          // Content formatting functions
+          const formatPostContent = (content) => {
+            if (!content) return "";
+
+            // Simple sanitization function
+            const sanitize = (html) => {
+              const div = document.createElement('div');
+              div.textContent = html;
+              return div.innerHTML;
+            };
+
+            let formatted = content
+              .split('\n\n')
+              .map(paragraph => {
+                if (paragraph.trim() === '') return '';
+
+                if (paragraph.startsWith('# ')) {
+                  return `<h1>${sanitize(paragraph.substring(2))}</h1>`;
+                } else if (paragraph.startsWith('## ')) {
+                  return `<h2>${sanitize(paragraph.substring(3))}</h2>`;
+                } else if (paragraph.startsWith('### ')) {
+                  return `<h3>${sanitize(paragraph.substring(4))}</h3>`;
+                }
+
+                paragraph = paragraph.replace(/`([^`]+)`/g, "<code>$1</code>");
+                paragraph = paragraph.replace(
+                  /```([^`]+)```/g,
+                  "<pre>$1</pre>"
+                );
+                paragraph = paragraph.replace(
+                  /\*\*([^*]+)\*\*/g,
+                  "<strong>$1</strong>"
+                );
+                paragraph = paragraph.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+
+                return `<p>${sanitize(paragraph)}</p>`;
+              })
+              .join('');
+
+            return formatted;
+          };
+
+          // Watchers for reactivity
+          watch(user, (newUser) => {
+            if (newUser) {
+              initProfileEditForm();
+            }
+          });
+
+          watch(showProfileEdit, (newVal) => {
+            if (newVal) {
+              initProfileEditForm();
+            }
+          });
+
+          watch(searchMyPosts, () => {
+            currentPage.value = 1;
+          });
+
+          // Debounce for global search
+          let searchTimeout;
+          watch(globalSearch, (newValue) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+              // Search updates automatically through computed
+            }, 300);
+          });
+
+          // Initialization when component mounts
+          onMounted(() => {
+            fetchPosts();
+            fetchDashboardStats();
+            checkAuth();
+            window.addEventListener('scroll', handleScroll);
+          });
+
+          // Return all variables and functions to template
+          return {
+            posts,
+            user,
+            loading,
+            error,
+            showLogin,
+            showRegister,
+            showProfileEdit,
+            showDeleteConfirm,
+            mobileMenuOpen,
+            showScrollTop,
+            loginForm,
+            registerForm,
+            profileEditForm,
+            newPost,
+            myPosts,
+            postLoading,
+            profileLoading,
+            selectedPost,
+            editingPost,
+            userStats,
+            dashboardStats,
+            searchMyPosts,
+            globalSearch,
+            searchResults,
+            globalSearchResults,
+            currentPage,
+            postsPerPage,
+            sortOrder,
+            filteredAndSortedPosts,
+            totalPages,
+            notifications,
+            handleLogin,
+            handleRegister,
+            logout,
+            handleProfilePictureChange,
+            updateProfile,
+            deleteAccount,
+            formatDate,
+            formatDisplayDate,
+            countWords,
+            createNewPost,
+            deletePost,
+            editPost,
+            updatePost,
+            viewPost,
+            formatPostContent,
+            closeLogin,
+            closeRegister,
+            closeProfileEdit,
+            closeLoginAndOpenRegister,
+            closeRegisterAndOpenLogin,
+            scrollToSection,
+            openCreatePostWithEffect,
+            goToPost,
+            highlightSearch,
+            showNotification,
+            removeNotification,
+            scrollToTop,
+            handleScroll,
+          };
+        },
+      }).mount("#app");
+    </script>
+
+    <!-- Font Awesome -->
+    <script
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
