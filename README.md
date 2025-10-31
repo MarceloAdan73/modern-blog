@@ -91,18 +91,12 @@ Human Oversight: Architecture decisions, security implementations, deployment st
 
 📱 Responsive Design for all devices
 
-👨‍💻 Developer
-Marcelo - Full Stack Developer & AI Collaboration Enthusiast
+👨‍💻 Developer  
+**Marcelo**  
+[View GitHub Profile](https://github.com/MarceloAdan73)
 
 "This project showcases how AI can accelerate development while maintaining code quality and architectural integrity."
 
 ⭐ Star this repo if you found it helpful!
 
 🚀 Live Demo | 📚 API Docs
-
-📱 Responsive Design for all devices
-
-👨‍💻 Developer
-Marcelo - Full Stack Developer & AI Collaboration Enthusiast
-
-"This project showcases how AI can accelerate development while maintaining code quality and architectural integrity."
