@@ -63,14 +63,7 @@ modern-blog/
 - GET /api/dashboard/stats - Platform statistics
 - GET /api/users/{id}/stats - User analytics
 
-## 🛠 Local Development
-```bash
-git clone https://github.com/MarceloAdan73/modern-blog.git
-cd modern-blog
-pip install -r requirements.txt
-python main.py
-
-🌍 Deployment
+- 🌍 Deployment
 Render.com Configuration:
 
 Auto-deploy from GitHub main branch
@@ -95,6 +88,17 @@ Human Oversight: Architecture decisions, security implementations, deployment st
 🔒 Werkzeug Security for password hashing
 
 🌐 CORS Enabled for cross-origin requests
+
+📱 Responsive Design for all devices
+
+👨‍💻 Developer
+Marcelo - Full Stack Developer & AI Collaboration Enthusiast
+
+"This project showcases how AI can accelerate development while maintaining code quality and architectural integrity."
+
+⭐ Star this repo if you found it helpful!
+
+🚀 Live Demo | 📚 API Docs
 
 📱 Responsive Design for all devices
 
