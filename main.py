@@ -157,8 +157,9 @@ def get_posts(db: Session = Depends(get_db)):
     posts = db.query(Post).order_by(Post.created_at.desc()).all()
     
     # Add info if it's from current user (mock)
+    # TEMPORARY FIX: Mark all as NOT owner until proper auth is implemented
     for post in posts:
-        post.is_owner = True  # In real app verify with JWT
+        post.is_owner = False  # Temporary fix for security
     
     return posts
 
@@ -191,7 +192,7 @@ def get_my_posts(db: Session = Depends(get_db)):
     
     posts = db.query(Post).filter(Post.author_id == user.id).order_by(Post.created_at.desc()).all()
     
-    # Mark as owned
+    # Mark as owned (this should remain True for user's own posts)
     for post in posts:
         post.is_owner = True
     
@@ -203,8 +204,8 @@ def get_post(post_id: int, db: Session = Depends(get_db)):
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     
-    # Mark as owned (mock)
-    post.is_owner = True
+    # Mark as NOT owned (temporary security fix)
+    post.is_owner = False
     
     return post
 
