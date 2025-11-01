@@ -65,3 +65,15 @@ Thumbs.db
 # Archivos temporales
 *.tmp
 *.temp
+
+# Base de datos local
+blog.db
+*.db
+*.sqlite3
+
+# Caché de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
