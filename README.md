@@ -100,3 +100,17 @@ Human Oversight: Architecture decisions, security implementations, deployment st
 â­ Star this repo if you found it helpful!
 
 ðŸš€ Live Demo | ðŸ“š API Docs
+
+
+## í³¸ Screenshot
+
+![Modern Blog Screenshot](static/images/screenshot.png)
+
+> *Main dashboard showing posts and user interface*
+
+
+## í³¸ Application Screenshot
+
+![Modern Blog Application](static/images/screenshot.png)
+
+> *Modern Blog Platform - Main Interface*
