@@ -8,6 +8,8 @@ A modern blogging web application built with FastAPI and cutting-edge technologi
 **ðŸ”— Live URL:** [https://modern-blog-tkzl.onrender.com/](https://modern-blog-tkzl.onrender.com/)
 **ðŸ“š API Documentation:** [https://modern-blog-tkzl.onrender.com/docs](https://modern-blog-tkzl.onrender.com/docs)
 
+![Modern Blog Application](static/images/screenshot.png)
+
 ## ðŸ›  Technology Stack
 **Backend:** Python 3.11, FastAPI 0.100.0, SQLAlchemy 1.4.46, PostgreSQL, Uvicorn 0.23.2
 **Frontend:** HTML5, CSS3, JavaScript, Modern UI/UX
@@ -102,21 +104,21 @@ Human Oversight: Architecture decisions, security implementations, deployment st
 ðŸš€ Live Demo | ðŸ“š API Docs
 
 
-## í³¸ Screenshot
+## ï¿½ï¿½ï¿½ Screenshot
 
 ![Modern Blog Screenshot](static/images/screenshot.png)
 
 > *Main dashboard showing posts and user interface*
 
 
-## í³¸ Application Screenshot
+## ï¿½ï¿½ï¿½ Application Screenshot
 
 ![Modern Blog Application](static/images/screenshot.png)
 
 > *Modern Blog Platform - Main Interface*
 
 
-## í³¸ Application Screenshot
+## ï¿½ï¿½ï¿½ Application Screenshot
 
 ![Modern Blog Application](static/images/screenshot.png)
 
