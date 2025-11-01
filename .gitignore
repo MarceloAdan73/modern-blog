@@ -46,3 +46,22 @@ update_references.py
 fix_main.py
 render_fix.py
 update_*.py
+
+# Archivos de desarrollo local
+blog.db
+*.log
+*.sqlite3
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.temp
