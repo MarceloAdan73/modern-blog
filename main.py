@@ -27,7 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Crear directorios si no existen
+# Create directories if they do not exist
 os.makedirs("templates", exist_ok=True)
 os.makedirs("static", exist_ok=True)
 
