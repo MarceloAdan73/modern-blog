@@ -114,3 +114,10 @@ Human Oversight: Architecture decisions, security implementations, deployment st
 ![Modern Blog Application](static/images/screenshot.png)
 
 > *Modern Blog Platform - Main Interface*
+
+
+## í³¸ Application Screenshot
+
+![Modern Blog Application](static/images/screenshot.png)
+
+> *Modern Blog Platform - Main Interface*
