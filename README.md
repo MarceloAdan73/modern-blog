@@ -1,26 +1,43 @@
-# 🚀 Modern Blog - Full Stack Blogging Platform
+# 🚀 Modern CMS & Blog Platform
 
 > **Developed with AI Assistance** 🤖 + **Human Expertise** 👨‍💻
 
-A modern blogging web application built with FastAPI and cutting-edge technologies, developed through human-AI collaboration.
+A robust, full-stack blogging and Content Management System (CMS) application built using the high-performance **FastAPI** framework for the backend and a modern UI/UX approach. This project exemplifies effective human-AI collaboration in software development.
 
-## 🌐 Live Application
+---
+
+## 🌐 Live Application & Key Views
+
+Explore the live application and see the system's key interfaces:
+
 **🔗 Live URL:** [https://modern-blog-tkzl.onrender.com/](https://modern-blog-tkzl.onrender.com/)
 **📚 API Documentation:** [https://modern-blog-tkzl.onrender.com/docs](https://modern-blog-tkzl.onrender.com/docs)
 
-![Modern Blog Application](static/images/screenshot.png)
+### Application Screenshots
 
-## 🛠 Technology Stack
-**Backend:** Python 3.11, FastAPI 0.100.0, SQLAlchemy 1.4.46, PostgreSQL, Uvicorn 0.23.2
-**Frontend:** HTML5, CSS3, JavaScript, Modern UI/UX
-**Security:** Werkzeug 2.3.7, BCrypt, CORS
-**Deployment:** Render.com, GitHub, PostgreSQL
+*The CMS user interface showing the main feed, dashboard, and content management tools.*
 
-## ✨ Key Features
-**🔐 Authentication:** Secure user registration, login, profile management
-**📝 Content Management:** Full CRUD operations for posts, rich editor, post preview
-**📊 Dashboard & Analytics:** User statistics, activity metrics, most active user tracking
-**🎨 User Experience:** Responsive design, real-time notifications, search functionality
+![Modern Blog Application](static/images/screenshot1.png)
+![Post Management Interface](static/images/screenshot2.png)
+
+---
+
+## ✨ Key Features & Technology Stack
+
+### 🛠 Technology Stack
+| Component | Technology | Role |
+| :--- | :--- | :--- |
+| **Backend Framework** | Python 3.11, **FastAPI 0.100.0** | High-performance API and business logic. |
+| **Database/ORM** | **SQLAlchemy 1.4.46**, PostgreSQL | Object-Relational Mapping and data persistence. |
+| **Frontend** | HTML5, CSS3, **JavaScript** (Modern UI/UX) | User Interface design and interactivity. |
+| **Security** | Werkzeug 2.3.7, BCrypt, CORS | Password hashing and secure connection management. |
+| **Deployment** | Render.com, GitHub, PostgreSQL | Continuous integration and production environment. |
+
+### 📈 Performance & Security
+* ⚡ **FastAPI:** Utilized for high-performance and asynchronous (async) operations.
+* 🗃️ **SQLAlchemy:** Ensures efficient and reliable database interactions.
+* 🔒 **Werkzeug Security:** Implements robust password hashing for user data protection.
+* 📱 **Responsive Design:** Optimized for seamless viewing and interaction across all devices.
 
 ## 🏗 Project Architecture
 
