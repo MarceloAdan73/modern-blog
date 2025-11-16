@@ -17,8 +17,7 @@ Explore the live application and see the system's key interfaces:
 
 *The CMS user interface showing the main feed, dashboard, and content management tools.*
 
-![Modern Blog Application Landing Page](static/images/screenshot.png)
-![User Dashboard View](static/images/screenshot1.png)
+![Modern Blog Application](static/images/screenshot1.png)
 ![Post Management Interface](static/images/screenshot2.png)
 
 ---
