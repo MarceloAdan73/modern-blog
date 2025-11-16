@@ -19,6 +19,8 @@ Explore the live application and see the system's key interfaces:
 
 ![Modern Blog Application](static/images/screenshot1.png)
 
+
+
 ![Post Management Interface](static/images/screenshot2.png)
 
 ---
